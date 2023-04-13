@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminNewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,16 +17,31 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->middleware(['auth']); //Securiser la route avec auth 
+
+Route::get('/secure', function () {
+    return view('secure');
+});
+
+Route::get('/notsecure', function () {
+    return view('notsecure');
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () { 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+/* Route sécurisée pour la gestion des News */
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('admin/news/add', [AdminNewsController::class, 'add'])->name('news.add') ; 
+
 });
 
 require __DIR__.'/auth.php';
