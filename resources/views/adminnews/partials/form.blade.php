@@ -57,7 +57,7 @@
   </form>
 -->
 
-<form action="{{route('news.add')}}" method="post" enctype="multipart/form-data">
+<form action="{{!empty($actu)?route('news.edit', $actu->id):route('news.add')}}" method="post" enctype="multipart/form-data">
   @csrf
 
   <div class="mb-5">
@@ -71,6 +71,7 @@
     <input 
     type="text" 
     name="titre" 
+    value="{{!empty($actu)?$actu->titre:''}}"
     placeholder="Saisissez un texte"
     class="w-full rounded-md border-white bg-white py-3 px-6 text-base text-black font-medium focus:border-[#6A64F1]">
 
@@ -87,6 +88,16 @@
     class="mb-3 block text-base font-medium text-white-700">
     Image
     </label>
+
+    @isset($actu)
+
+    <img
+      class="h-30 w-20 rounded-full object-cover object-center p-3"
+      src="{{Storage::url($actu->image)}}"
+      alt=""
+    />
+
+    @endisset
 
     <input 
     type="file" 
@@ -108,7 +119,7 @@
     Description
     </label>
 
-    <textarea name="description" class="w-full rounded-md border-white bg-white py-3 px-6 h-56 text-base text-black font-medium focus:border-[#6A64F1]"></textarea>
+    <textarea name="description" class="w-full rounded-md border-white bg-white py-3 px-6 h-56 text-base text-black font-medium focus:border-[#6A64F1]">{{!empty($actu)?$actu->description:''}}</textarea>
     
     @error('description')
       Ajoutez une description
@@ -118,7 +129,7 @@
 
   <div class="mb-5">
 
-    <button class="bg-[#6A64F1] px-8 py-3 text-white rounded-md font-bold" >Ajouter</button>
+    <button class="bg-[#6A64F1] px-8 py-3 text-white rounded-md font-bold" >{{!empty($actu)?'Modifier':'Ajouter'}}</button>
 
   </div>
 
