@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,7 +19,10 @@ class AdminNewsController extends Controller
     }
 
     public function formAdd() { // Affichage de mon formulaire
-        return view('adminnews.edit') ; 
+
+        $categories = Category::orderBy('name', 'asc')->get() ;
+        return view('adminnews.edit', compact('categories')) ; 
+
     }
 
     public function add(Request $request) { // Ajout des informations
@@ -40,8 +44,8 @@ class AdminNewsController extends Controller
 
         }
 
+        $newsModel->category_id = $request->category ; 
         $newsModel->description = $request->description ; 
-
         $newsModel->titre = $request->titre ; 
         $newsModel->save() ;
         return redirect(route('news.add')) ; 
@@ -49,12 +53,13 @@ class AdminNewsController extends Controller
 
     public function formEdit($id = 0) { 
         $actu = News::findOrFail($id) ;
-        return view('adminnews.edit', compact('actu')) ; 
+        $categories = Category::orderBy('name', 'asc')->get() ; // Classer les catégories par nom par ordre croissant 
+        return view('adminnews.edit', compact('actu', 'categories')) ; 
     }
 
     public function edit(Request $request, $id = 0) {
 
-        $actu = News::findOrFail($id) ; // Creéation d'une instance de class (model News à modifier à partir de l'id) pour enregistrer en base
+        $actu = News::findOrFail($id) ; // Création d'une instance de class (model News à modifier à partir de l'id) pour enregistrer en base
         $request->validate(['titre'=> 'required|min:5']) ;
 
         if ($request->file()) {
@@ -68,8 +73,8 @@ class AdminNewsController extends Controller
     
             }
 
+        $actu->category_id = $request->category ; 
         $actu->description = $request->description ; 
-
         $actu->titre = $request->titre ; 
         $actu->save() ; 
         return redirect(route('news.liste')) ; 

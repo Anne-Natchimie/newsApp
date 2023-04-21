@@ -1,12 +1,30 @@
-<h1>Liste des News</h1>
+<x-app-layout>
+
+<ul>
+    @foreach ( $categories as $itemCategory)
+    <li class="text-white"><a href="{{route('news.standard.category', $itemCategory->id)}}">{{$itemCategory->name}}</a></li>
+    @endforeach
+</ul>
+
+<h1 class="text-white">Liste des News</h1>
+
+@if (Gate::allows('admin'))
+    <h1 class="text-white">Ok</h1>
+@else
+    <h1 class="text-white">Not Ok</h1>
+@endif
 
 @forelse ($actus as $itemActu)
 
-<h3>{{Str::limit($itemActu->titre, 30)}}</h3>
-<a href="{{route('news.standard.detail', $itemActu)}}">Voir...</a>
+<h3 class="text-white">{{Str::limit($itemActu->titre, 30)}}</h3>
+<a class="text-white" href="{{route('news.standard.detail', $itemActu)}}">Voir...</a>
     
 @empty
 
-    <h2>Pas de News</h2>
+<h2>Pas de News</h2>
 
 @endforelse
+
+{{$actus->links()}}
+
+</x-app-layout>
