@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         // La chaîne ici présente défini le nom de l'autorisation
         Gate::define('admin', function (User $user) {
-            return $user->admin === 1;
+            return $user->admin === 1;   
         });
     }
 }

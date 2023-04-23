@@ -9,9 +9,9 @@
 <h1 class="text-white">Liste des News</h1>
 
 @if (Gate::allows('admin'))
-    <h1 class="text-white">Ok</h1>
+    <h1 class="text-white">Admin</h1>
 @else
-    <h1 class="text-white">Not Ok</h1>
+    <h1 class="text-white">Not Admin</h1>
 @endif
 
 @forelse ($actus as $itemActu)
