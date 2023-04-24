@@ -28,4 +28,5 @@ class AuthServiceProvider extends ServiceProvider
             return $user->admin === 1;   
         });
     }
+    
 }

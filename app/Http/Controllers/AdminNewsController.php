@@ -27,7 +27,7 @@ class AdminNewsController extends Controller
 
     public function add(Request $request) { // Ajout des informations
 
-        $newsModel = new News ; // Creéation d'une instance de class pour enregistrer en base 
+        $newsModel = new News ; // Création d'une instance de class pour enregistrer en base 
 
         $request->validate(['titre'=> 'required|min:5']) ; // Vérification des données, titre obligatoire
         //dd($request) ; //Entrer des données 

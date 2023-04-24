@@ -53,10 +53,10 @@ Route::middleware('auth')->group(function () {
 
 /* Route sécurisée pour la gestion des News */
 
-Route::middleware(['auth', 'can:admin'])->group(function () { // Autoriser l'adminstrateur sur plusieurs liens 
+Route::middleware(['auth', 'can:admin'])->group(function () { // Autoriser l'adminstrateur sur tous les liens 
     Route::get('admin/news/add', [AdminNewsController::class, 'formAdd'])->name('news.add') ; // Route pour ajouter
     Route::post('admin/news/add', [AdminNewsController::class, 'add'])->name('news.add') ; 
-    // Route::post('admin/news/add', [AdminNewsController::class, 'add'])->can('admin')->name('news.add') ; // Autoriser l'administrateur sur un lien 
+    // Route::post('admin/news/add', [AdminNewsController::class, 'add'])->can('admin')->name('news.add') ; // Autoriser l'administrateur lien par lien 
 
     Route::get('admin/news/edit/{id}', [AdminNewsController::class, 'formEdit'])->name('news.edit') ; // Route pour modifier
     Route::post('admin/news/edit/{id}', [AdminNewsController::class, 'edit'])->name('news.edit') ; 
